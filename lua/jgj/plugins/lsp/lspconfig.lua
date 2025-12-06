@@ -74,7 +74,7 @@ return {
             },
         })
 
-        vim.lsp.config("lua_ls", {
+        vim.lsp.config["lua_ls"] = {
             settings = {
                 Lua = {
                     -- make the language server recognize "vim" global
@@ -86,6 +86,18 @@ return {
                     },
                 },
             },
-        })
+        }
+        vim.lsp.config["slang-server"] = {
+            cmd = {
+                "slang-server",
+            },
+            filetypes = {
+                "systemverilog",
+                "verilog",
+            },
+            single_file_support = true,
+            root_markers = { '.slang', '.git' },
+        }
+        vim.lsp.enable("slang-server")
     end,
 }
