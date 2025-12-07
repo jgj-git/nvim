@@ -74,5 +74,6 @@ parser errors.
 
 **TODO**: add the option to insert Accelera's
 [UVM reference implementation](https://www.accellera.org/downloads/standards/uvm)
-files into slang's file list.
+files into slang's file list. For the most popular vendors (Questa, VCS) the 
+UVM source code will be in `$UVM_HOME/src`.
 
