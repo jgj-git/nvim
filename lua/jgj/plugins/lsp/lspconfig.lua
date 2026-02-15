@@ -15,30 +15,24 @@ return {
             callback = function(ev)
                 -- Buffer local mappings.
                 local opts = { buffer = ev.buf, silent = true }
-
                 opts.desc = "See available code actions"
                 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-
                 opts.desc = "Smart rename"
                 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
                 opts.desc = "Show line diagnostics"
                 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-
                 opts.desc = "Go to previous diagnostic"
                 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-
                 opts.desc = "Go to next diagnostic"
                 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-
                 opts.desc = "Show documentation for what is under cursor"
                 vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
                 opts.desc = "Format according to lsp in buffer"
                 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
-
                 opts.desc = "Restart LSP"
                 vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+                opts.desc = "Go to declaration"
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
             end,
         })
 
@@ -56,6 +50,10 @@ return {
             },
         })
 
+        vim.lsp.config["*"] = {
+            root_markers = { ".git" },
+        }
+
         vim.lsp.config["lua_ls"] = {
             settings = {
                 Lua = {
@@ -69,6 +67,7 @@ return {
                 },
             },
         }
+        vim.lsp.enable("lua_ls")
         vim.lsp.config["slang-server"] = {
             cmd = {
                 "slang-server",
@@ -81,5 +80,17 @@ return {
             root_markers = { '.slang', '.git' },
         }
         vim.lsp.enable("slang-server")
+        vim.lsp.config["clangd"] = {
+            cmd = {
+                'clangd',
+                '--clang-tidy',
+                '--background-index',
+                '--offset-encoding=utf-8',
+                "--compile-commands-dir=build",
+            },
+            root_markers = { ".clangd", "build/compile_commands.json" },
+            filetypes = { "c", "cpp" },
+        }
+        vim.lsp.enable("clangd")
     end,
 }
